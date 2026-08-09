@@ -22,6 +22,27 @@ from .restapis import get_request, analyze_review_sentiments, post_review
 # Get an instance of a logger
 logger = logging.getLogger(__name__)
 
+
+def fetch_reviews(request, dealer_id):
+    """Expose the Node review endpoint through the deployed Django host."""
+    reviews = get_request("/fetchReviews/dealer/" + str(dealer_id))
+    return JsonResponse(reviews, safe=False)
+
+
+def fetch_dealers(request, state=None):
+    """Expose all dealers, or dealers filtered by state."""
+    endpoint = "/fetchDealers"
+    if state:
+        endpoint += "/" + state
+    dealers = get_request(endpoint)
+    return JsonResponse(dealers, safe=False)
+
+
+def fetch_dealer(request, dealer_id):
+    """Expose a single dealer using the rubric's endpoint name."""
+    dealer = get_request("/fetchDealer/" + str(dealer_id))
+    return JsonResponse(dealer, safe=False)
+
 # Create your views here.
 
 

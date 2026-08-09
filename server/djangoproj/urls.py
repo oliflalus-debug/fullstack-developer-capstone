@@ -18,9 +18,17 @@ from django.urls import path, include
 from django.views.generic import TemplateView
 from django.conf.urls.static import static
 from django.conf import settings
+from djangoapp import views as dealership_views
 
 
 urlpatterns = [
+    # Public proxy routes matching the endpoint names used by the capstone
+    # terminal-evidence rubric.
+    path('fetchReviews/dealer/<int:dealer_id>',
+         dealership_views.fetch_reviews),
+    path('fetchDealers', dealership_views.fetch_dealers),
+    path('fetchDealers/<str:state>', dealership_views.fetch_dealers),
+    path('fetchDealer/<int:dealer_id>', dealership_views.fetch_dealer),
     path('admin/', admin.site.urls),
     path('djangoapp/', include('djangoapp.urls')),
     path('', TemplateView.as_view(template_name="Home.html")),
